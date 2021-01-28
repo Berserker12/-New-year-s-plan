@@ -1,41 +1,67 @@
 <template>
-  <div>
+  <div class="login">
+    <el-form
+      :model="ruleForm"
+      :rules="rules"
+      ref="loginruleForm"
+      label-width="100px"
+      class="demo-ruleForm"
+    >
+      <el-form-item prop="username" style="margin-left: -100px">
+        <el-input v-model="ruleForm.username"></el-input>
+      </el-form-item>
+      <el-form-item prop="password" style="margin-left: -100px">
+        <el-input v-model="ruleForm.password"></el-input>
+      </el-form-item>
 
-
-    
+      <el-form-item>
+        <el-button @click="login" style="margin-left: -100px">登录</el-button>
+      </el-form-item>
+    </el-form>
   </div>
 </template>
-
 <script>
+import { login } from "../api/user";
 export default {
-  // 组件名称
-  name: "demo",
-  // 组件参数 接收来自父组件的数据
-  props: {},
-  // 局部注册的组件
-  components: {},
-  // 组件状态值
   data() {
-    return {};
+    return {
+      ruleForm: {
+        username: "admin",
+        password: "admin",
+      },
+      rules: {
+        username: [
+          { required: true, message: "请输入用户名", trigger: "blur" },
+        ],
+        password: [{ required: true, message: "请输入密码", trigger: "blur" }],
+      },
+    };
   },
-  mounted() {},
-  /**
-   * 数据更新时调用，发生在虚拟 DOM 重新渲染和打补丁之前。
-   * 你可以在这个钩子中进一步地更改状态，这不会触发附加的重渲染过程。
-   */
-  // 计算属性
-  computed: {},
-  // 侦听器
-  watch: {},
-  // 组件方法
-  methods: {},
-  // 以下是生命周期钩子   注：没用到的钩子请自行删除
+  methods: {
+    login() {
+      this.$refs.loginruleForm.validate((valid) => {
+        if (valid) {
+          login(this.ruleForm.username, this.ruleForm.password).then((res) => {
+            console.log(res);
+          });
+        } else {
+          console.log("error submit!!");
+          return false;
+        }
+      });
+    },
+  },
 };
-</script> 
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<!--使用了scoped属性之后，父组件的style样式将不会渗透到子组件中，-->
-<!--然而子组件的根节点元素会同时被设置了scoped的父css样式和设置了scoped的子css样式影响，-->
-<!--这么设计的目的是父组件可以对子组件根元素进行布局。-->
-<style  lang='scss'  scoped>
+</script>
+<style lang="scss" scoped>
+.login {
+  width: 400px;
+  height: 200px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  // background: #ccc;
+}
 </style>
+

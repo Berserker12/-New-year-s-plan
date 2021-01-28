@@ -12,10 +12,10 @@ const service = axios.create({
 // request拦截器 request interceptor
 service.interceptors.request.use(
   config => {
-    const token = localStorage.getItem('token')
-    if (token) {
-      config.headers.authorization = ' Bearer ' + token
-    }
+    // const token = localStorage.getItem('token')
+    // if (token) {
+    //   config.headers.authorization = ' Bearer ' + token
+    // }
     return config
   },
   error => {
