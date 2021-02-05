@@ -15,6 +15,7 @@ export function logout() {
     url: api.logout,
     method: 'post',
   })
+  // 999
 }
 //商品管理
 export function goodlist(data) {
